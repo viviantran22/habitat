@@ -265,7 +265,7 @@ view: habitat {
 
   measure: visits_delta_change {
     view_label: "Date Comparison"
-    label: "Visits Δ"
+    label: "Visits Delta Δ"
     type: number
     sql: ${visits_this_week} - ${visits_last_week} ;;
     html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
