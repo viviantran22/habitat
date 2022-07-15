@@ -231,6 +231,27 @@ view: habitat {
     END;;
   }
 
+
+##### Year-over-Year (Full Week or Specific Days) Comparaison
+
+  filter: yearly_date_comparison_filter {
+    view_label: "Yearly Date Comparison"
+    type: date
+    sql: ${this_week_vs_this_week_last_year} is not null ;;
+  }
+
+  dimension: this_week_vs_this_week_last_year {
+    hidden: no
+    view_label: "Yearly Date Comparison"
+    type: string
+    sql: CASE
+      WHEN {% condition date_comparison_filter %} ${date_raw} {% endcondition %} THEN 'This Year'
+      WHEN ${date_raw} >= TIMESTAMP(DATE_ADD(CAST({% date_start date_comparison_filter %} AS DATE), INTERVAL -52 WEEKS)) AND ${date_raw} < TIMESTAMP(DATE_ADD(CAST({% date_end date_comparison_filter %} AS DATE), INTERVAL -52 WEEKS)) THEN 'This Week Prior Year'
+    END;;
+  }
+
+
+
   #### Start of Do7D and WoW Comparaison
   measure: visits_this_week {
     view_label: "Date Comparison"
