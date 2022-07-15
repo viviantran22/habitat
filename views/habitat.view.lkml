@@ -606,7 +606,7 @@ view: habitat {
     type: sum
     sql: ${forecast_sessions} ;;
     value_format: "#,##0"
-    filters: [this_week_vs_last_week: "This Week"]
+    filters: [this_week_vs_last_week: "This Year"]
     hidden: no
   }
 
