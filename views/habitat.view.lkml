@@ -294,7 +294,7 @@ view: habitat {
     view_label: "Date Comparison"
     label: "Visits vs Forecast %"
     type: number
-    sql: ${visits_this_week}-${forecasted_visits_this_week}/nullif(${forecasted_visits_this_week},0) ;;
+    sql: (${visits_this_week}-${forecasted_visits_this_week})/nullif(${forecasted_visits_this_week},0) ;;
     value_format_name: percent_2
     html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
           {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
@@ -369,7 +369,7 @@ view: habitat {
     view_label: "Date Comparison"
     label: "Orders vs Forecast %"
     type: number
-    sql: ${orders_this_week}-${forecasted_orders_this_week}/nullif(${forecasted_orders_this_week},0) ;;
+    sql: (${orders_this_week}-${forecasted_orders_this_week})/nullif(${forecasted_orders_this_week},0) ;;
     value_format_name: percent_2
     html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
           {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
@@ -443,7 +443,7 @@ view: habitat {
     view_label: "Date Comparison"
     label: "Revenue vs Forecast %"
     type: number
-    sql: ${revenue_this_week}-${forecasted_revenue_this_week}/nullif(${forecasted_revenue_this_week},0) ;;
+    sql: (${revenue_this_week}-${forecasted_revenue_this_week})/nullif(${forecasted_revenue_this_week},0) ;;
     value_format_name: percent_2
     html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
           {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
@@ -516,7 +516,7 @@ view: habitat {
     view_label: "Date Comparison"
     label: "Cost vs Forecast %"
     type: number
-    sql: ${cost_this_week}-${forecasted_cost_this_week}/nullif(${forecasted_cost_this_week},0) ;;
+    sql: (${cost_this_week}-${forecasted_cost_this_week})/nullif(${forecasted_cost_this_week},0) ;;
     value_format_name: percent_2
     html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
           {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
