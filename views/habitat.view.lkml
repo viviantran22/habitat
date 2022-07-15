@@ -543,7 +543,7 @@ view: habitat {
     type: string
     sql: CASE
       WHEN {% condition date_comparison_filter %} ${date_raw} {% endcondition %} THEN 'This Year'
-      WHEN ${date_raw} >= TIMESTAMP(DATE_ADD(CAST({% date_start date_comparison_filter %} AS DATE), INTERVAL -52 WEEKS)) AND ${date_raw} < TIMESTAMP(DATE_ADD(CAST({% date_end date_comparison_filter %} AS DATE), INTERVAL -52 WEEKS)) THEN 'This Week Prior Year'
+      WHEN ${date_raw} >= TIMESTAMP(DATE_ADD(CAST({% date_start date_comparison_filter %} AS DATE), INTERVAL -52 WEEK)) AND ${date_raw} < TIMESTAMP(DATE_ADD(CAST({% date_end date_comparison_filter %} AS DATE), INTERVAL -52 WEEK)) THEN 'This Week Prior Year'
     END;;
   }
 
