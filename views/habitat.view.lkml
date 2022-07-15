@@ -549,9 +549,9 @@ view: habitat {
 
   #### Start of YoY Comparaison
   measure: visits_this_week_this_year {
-    view_label: "Date Comparison"
+    view_label: "Yearly Date Comparison"
     label: "Visits Current Week"
-    description: "Te be used this with Date Comparaison Filter"
+    description: "Te be used this with Date Comparison Filter"
     type: sum
     sql: ${visits} ;;
     value_format: "#,##0"
@@ -568,7 +568,7 @@ view: habitat {
   }
 
   measure: visits_percent_change_this_year {
-    view_label: "Date Comparison"
+    view_label: "Yearly Date Comparison"
     label: "Visits Change %"
     type: number
     sql: ${visits_this_week}/nullif(${visits_this_week_last_year},0) - 1 ;;
@@ -582,7 +582,7 @@ view: habitat {
   }
 
   measure: visits_delta_change_this_year {
-    view_label: "Date Comparison"
+    view_label: "Yearly Date Comparison"
     label: "Visits Delta Δ"
     type: number
     sql: ${visits_this_week} - ${visits_this_week_last_year} ;;
@@ -596,7 +596,7 @@ view: habitat {
   }
 
   measure: forecasted_visits_this_week_this_year {
-    view_label: "Date Comparison"
+    view_label: "Yearly Date Comparison"
     label: "Forecasted Visits Current Week"
     description: "Te be used this with Date Comparaison Filter"
     type: sum
@@ -607,7 +607,7 @@ view: habitat {
   }
 
   measure: visits_vs_forecast_percent_difference_this_year {
-    view_label: "Date Comparison"
+    view_label: "Yearly Date Comparison"
     label: "Visits vs Forecast %"
     type: number
     sql: (${visits_this_week}-${forecasted_visits_this_week_this_year})/nullif(${forecasted_visits_this_week_this_year},0) ;;
