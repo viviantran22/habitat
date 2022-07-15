@@ -290,19 +290,11 @@ view: habitat {
     hidden: no
   }
 
-  measure: forecasted_visits_last_week {
-    type: sum
-    sql: ${forecast_sessions} ;;
-    value_format: "#,##0"
-    filters: [this_week_vs_last_week: "Prior Week"]
-    hidden: yes
-  }
-
-  measure: forecasted_visits_percent_change {
+  measure: visits_vs_forecast_percent_difference {
     view_label: "Date Comparison"
-    label: "Forecasted Visits Change %"
+    label: "Visits vs Forecast %"
     type: number
-    sql: ${forecasted_visits_this_week}/nullif(${forecasted_visits_last_week},0) - 1 ;;
+    sql: ${visits_this_week}-${forecasted_visits_this_week}/nullif(${forecasted_visits_this_week},0) ;;
     value_format_name: percent_2
     html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
           {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
@@ -312,19 +304,7 @@ view: habitat {
     drill_fields: [clicks]
   }
 
-  measure: forecasted_visits_delta_change {
-    view_label: "Date Comparison"
-    label: "Forecasted Visits Delta Δ"
-    type: number
-    sql: ${forecasted_visits_this_week} - ${forecasted_visits_last_week} ;;
-    value_format: "#,##0"
-    html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
-          {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
-          {% else %}
-          <font color="black"> {{linked_value}} ▬ </font>
-          {% endif %};;
-    drill_fields: [clicks]
-  }
+
 
   measure: orders_this_week {
     view_label: "Date Comparison"
@@ -384,34 +364,13 @@ view: habitat {
     hidden: no
   }
 
-  measure: forecasted_orders_last_week {
-    type: sum
-    sql: ${forecast_orders} ;;
-    value_format: "#,##0"
-    filters: [this_week_vs_last_week: "Prior Week"]
-    hidden: yes
-  }
 
-  measure: forecasted_orders_percent_change {
+  measure: orders_vs_forecast_percent_difference {
     view_label: "Date Comparison"
-    label: "Forecasted Orders Change %"
+    label: "Orders vs Forecast %"
     type: number
-    sql: ${forecasted_orders_this_week}/nullif(${forecasted_orders_last_week},0) - 1 ;;
+    sql: ${orders_this_week}-${forecasted_orders_this_week}/nullif(${forecasted_orders_this_week},0) ;;
     value_format_name: percent_2
-    html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
-          {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
-          {% else %}
-          <font color="black"> {{linked_value}} ▬ </font>
-          {% endif %};;
-    drill_fields: [clicks]
-  }
-
-  measure: forecasted_orders_delta_change {
-    view_label: "Date Comparison"
-    label: "Forecasted Orders Delta Δ"
-    type: number
-    sql: ${forecasted_orders_this_week} - ${forecasted_orders_last_week} ;;
-    value_format: "#,##0"
     html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
           {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
           {% else %}
@@ -479,19 +438,12 @@ view: habitat {
     hidden: no
   }
 
-  measure: forecasted_revenue_last_week {
-    type: sum
-    sql: ${forecast_revenue} ;;
-    value_format: "\"£\"#,##0"
-    filters: [this_week_vs_last_week: "Prior Week"]
-    hidden: yes
-  }
 
-  measure: forecasted_revenue_percent_change {
+  measure: revenue_vs_forecast_percent_difference {
     view_label: "Date Comparison"
-    label: "Forecasted Revenue Change %"
+    label: "Revenue vs Forecast %"
     type: number
-    sql: ${forecasted_revenue_this_week}/nullif(${forecasted_revenue_last_week},0) - 1 ;;
+    sql: ${revenue_this_week}-${forecasted_revenue_this_week}/nullif(${forecasted_revenue_this_week},0) ;;
     value_format_name: percent_2
     html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
           {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
@@ -501,19 +453,6 @@ view: habitat {
     drill_fields: [clicks]
   }
 
-  measure: forecasted_revenue_delta_change {
-    view_label: "Date Comparison"
-    label: "Forecasted Revenue Delta Δ"
-    type: number
-    sql: ${forecasted_revenue_this_week} - ${forecasted_revenue_last_week} ;;
-    value_format: "\"£\"#,##0"
-    html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
-          {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
-          {% else %}
-          <font color="black"> {{linked_value}} ▬ </font>
-          {% endif %};;
-    drill_fields: [clicks]
-  }
 
   measure: cost_this_week {
     view_label: "Date Comparison"
@@ -573,34 +512,12 @@ view: habitat {
     hidden: no
   }
 
-  measure: forecasted_cost_last_week {
-    type: sum
-    sql: ${forecast_cost} ;;
-    value_format: "\"£\"#,##0"
-    filters: [this_week_vs_last_week: "Prior Week"]
-    hidden: yes
-  }
-
-  measure: forecasted_cost_percent_change {
+  measure: cost_vs_forecast_percent_difference {
     view_label: "Date Comparison"
-    label: "Forecasted Cost Change %"
+    label: "Cost vs Forecast %"
     type: number
-    sql: ${forecasted_cost_this_week}/nullif(${forecasted_cost_last_week},0) - 1 ;;
+    sql: ${cost_this_week}-${forecasted_cost_this_week}/nullif(${forecasted_cost_this_week},0) ;;
     value_format_name: percent_2
-    html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
-          {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
-          {% else %}
-          <font color="black"> {{linked_value}} ▬ </font>
-          {% endif %};;
-    drill_fields: [clicks]
-  }
-
-  measure: forecasted_cost_delta_change {
-    view_label: "Date Comparison"
-    label: "Forecasted Cost Delta Δ"
-    type: number
-    sql: ${forecasted_cost_this_week} - ${forecasted_cost_last_week} ;;
-    value_format: "\"£\"#,##0"
     html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
           {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
           {% else %}
