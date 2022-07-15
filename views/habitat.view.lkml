@@ -221,7 +221,11 @@ view: habitat {
     END;;
   }
 
-
+  filter: date_comparison_filter_year {
+    view_label: "Date Comparison"
+    type: date
+    sql: ${this_year_last_year} is not null ;;
+  }
 
   dimension: this_year_last_year {
     hidden: yes
@@ -256,6 +260,17 @@ view: habitat {
     hidden: yes
   }
 
+  measure: visits_this_year {
+    view_label: "Date Comparison"
+    label: "Visits This Year"
+    description: "Te be used this with Date Comparaison Filter"
+    type: sum
+    sql: ${visits} ;;
+    value_format: "#,##0"
+    filters: [this_week_vs_last_week: "This Year"]
+    hidden: no
+  }
+
   measure: visits_last_year {
     type: sum
     sql: ${visits} ;;
@@ -268,7 +283,7 @@ view: habitat {
     view_label: "Date Comparison"
     label: "Yearly Visits Change %"
     type: number
-    sql: ${visits_this_week}/nullif(${visits_last_year},0) - 1 ;;
+    sql: ${visits_this_year}/nullif(${visits_last_year},0) - 1 ;;
     value_format_name: percent_2
     html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
           {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
