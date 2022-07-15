@@ -399,7 +399,7 @@ view: habitat {
 
   measure: cost_delta_change {
     view_label: "Date Comparison"
-    label: "Revenue Delta Δ"
+    label: "Cost Delta Δ"
     type: number
     sql: ${cost_this_week} - ${cost_last_week} ;;
     html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
