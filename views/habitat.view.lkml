@@ -238,6 +238,7 @@ view: habitat {
     description: "Te be used this with Date Comparaison Filter"
     type: sum
     sql: ${visits} ;;
+    value_format: "#,##0"
     filters: [this_week_vs_last_week: "This Week"]
     hidden: no
   }
@@ -245,6 +246,7 @@ view: habitat {
   measure: visits_last_week {
     type: sum
     sql: ${visits} ;;
+    value_format: "#,##0"
     filters: [this_week_vs_last_week: "Prior Week"]
     hidden: yes
   }
@@ -268,6 +270,7 @@ view: habitat {
     label: "Visits Delta Δ"
     type: number
     sql: ${visits_this_week} - ${visits_last_week} ;;
+    value_format: "#,##0"
     html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
           {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
           {% else %}
@@ -282,6 +285,7 @@ view: habitat {
     description: "Te be used this with Date Comparaison Filter"
     type: sum
     sql: ${forecast_sessions} ;;
+    value_format: "#,##0"
     filters: [this_week_vs_last_week: "This Week"]
     hidden: no
   }
@@ -289,6 +293,7 @@ view: habitat {
   measure: forecasted_visits_last_week {
     type: sum
     sql: ${forecast_sessions} ;;
+    value_format: "#,##0"
     filters: [this_week_vs_last_week: "Prior Week"]
     hidden: yes
   }
@@ -312,6 +317,7 @@ view: habitat {
     label: "Forecasted Visits Delta Δ"
     type: number
     sql: ${forecasted_visits_this_week} - ${forecasted_visits_last_week} ;;
+    value_format: "#,##0"
     html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
           {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
           {% else %}
@@ -326,6 +332,7 @@ view: habitat {
     description: "Te be used this with Date Comparaison Filter"
     type: sum
     sql: ${orders} ;;
+    value_format: "#,##0"
     filters: [this_week_vs_last_week: "This Week"]
     hidden: no
   }
@@ -333,6 +340,7 @@ view: habitat {
   measure: orders_last_week {
     type: sum
     sql: ${orders} ;;
+    value_format: "#,##0"
     filters: [this_week_vs_last_week: "Prior Week"]
     hidden: yes
   }
@@ -371,6 +379,7 @@ view: habitat {
     description: "Te be used this with Date Comparaison Filter"
     type: sum
     sql: ${forecast_orders} ;;
+    value_format: "#,##0"
     filters: [this_week_vs_last_week: "This Week"]
     hidden: no
   }
@@ -378,6 +387,7 @@ view: habitat {
   measure: forecasted_orders_last_week {
     type: sum
     sql: ${forecast_orders} ;;
+    value_format: "#,##0"
     filters: [this_week_vs_last_week: "Prior Week"]
     hidden: yes
   }
@@ -401,6 +411,7 @@ view: habitat {
     label: "Forecasted Orders Delta Δ"
     type: number
     sql: ${forecasted_orders_this_week} - ${forecasted_orders_last_week} ;;
+    value_format: "#,##0"
     html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
           {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
           {% else %}
@@ -416,7 +427,7 @@ view: habitat {
     description: "Te be used this with Date Comparaison Filter"
     type: sum
     sql: ${revenue} ;;
-    value_format: "\"£\"0"
+    value_format: "\"£\"#,##0"
     filters: [this_week_vs_last_week: "This Week"]
     hidden: no
   }
@@ -424,7 +435,7 @@ view: habitat {
   measure: revenue_last_week {
     type: sum
     sql: ${revenue} ;;
-    value_format: "\"£\"0"
+    value_format: "\"£\"#,##0"
     filters: [this_week_vs_last_week: "Prior Week"]
     hidden: yes
   }
@@ -448,7 +459,7 @@ view: habitat {
     label: "Revenue Delta Δ"
     type: number
     sql: ${revenue_this_week} - ${revenue_last_week} ;;
-    value_format: "\"£\"0"
+    value_format: "\"£\"#,##0"
     html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
           {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
           {% else %}
@@ -463,7 +474,7 @@ view: habitat {
     description: "Te be used this with Date Comparaison Filter"
     type: sum
     sql: ${forecast_revenue} ;;
-    value_format: "\"£\"0"
+    value_format: "\"£\"#,##0"
     filters: [this_week_vs_last_week: "This Week"]
     hidden: no
   }
@@ -471,7 +482,7 @@ view: habitat {
   measure: forecasted_revenue_last_week {
     type: sum
     sql: ${forecast_revenue} ;;
-    value_format: "\"£\"0"
+    value_format: "\"£\"#,##0"
     filters: [this_week_vs_last_week: "Prior Week"]
     hidden: yes
   }
@@ -495,7 +506,7 @@ view: habitat {
     label: "Forecasted Revenue Delta Δ"
     type: number
     sql: ${forecasted_revenue_this_week} - ${forecasted_revenue_last_week} ;;
-    value_format: "\"£\"0"
+    value_format: "\"£\"#,##0"
     html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
           {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
           {% else %}
@@ -510,7 +521,7 @@ view: habitat {
     description: "Te be used this with Date Comparaison Filter"
     type: sum
     sql: ${cost} ;;
-    value_format: "\"£\"0"
+    value_format: "\"£\"#,##0"
     filters: [this_week_vs_last_week: "This Week"]
     hidden: no
   }
@@ -518,6 +529,7 @@ view: habitat {
   measure: cost_last_week {
     type: sum
     sql: ${cost} ;;
+    value_format: "\"£\"#,##0"
     filters: [this_week_vs_last_week: "Prior Week"]
     hidden: yes
   }
@@ -541,7 +553,7 @@ view: habitat {
     label: "Cost Delta Δ"
     type: number
     sql: ${cost_this_week} - ${cost_last_week} ;;
-    value_format: "\"£\"0"
+    value_format: "\"£\"#,##0"
     html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
           {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
           {% else %}
@@ -556,7 +568,7 @@ view: habitat {
     description: "Te be used this with Date Comparaison Filter"
     type: sum
     sql: ${forecast_cost} ;;
-    value_format: "\"£\"0"
+    value_format: "\"£\"#,##0"
     filters: [this_week_vs_last_week: "This Week"]
     hidden: no
   }
@@ -564,6 +576,7 @@ view: habitat {
   measure: forecasted_cost_last_week {
     type: sum
     sql: ${forecast_cost} ;;
+    value_format: "\"£\"#,##0"
     filters: [this_week_vs_last_week: "Prior Week"]
     hidden: yes
   }
@@ -587,7 +600,7 @@ view: habitat {
     label: "Forecasted Cost Delta Δ"
     type: number
     sql: ${forecasted_cost_this_week} - ${forecasted_cost_last_week} ;;
-    value_format: "\"£\"0"
+    value_format: "\"£\"#,##0"
     html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
           {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
           {% else %}
