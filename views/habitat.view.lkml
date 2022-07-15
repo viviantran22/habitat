@@ -571,7 +571,7 @@ view: habitat {
     view_label: "Yearly Date Comparison"
     label: "Visits Change %"
     type: number
-    sql: ${visits_this_week}/nullif(${visits_last_year},0) - 1 ;;
+    sql: ${visits_this_week_y}/nullif(${visits_last_year},0) - 1 ;;
     value_format_name: percent_2
     html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
           {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
@@ -585,7 +585,7 @@ view: habitat {
     view_label: "Yearly Date Comparison"
     label: "Visits Delta Δ"
     type: number
-    sql: ${visits_this_week} - ${visits_last_year} ;;
+    sql: ${visits_this_week_y} - ${visits_last_year} ;;
     value_format: "#,##0"
     html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
           {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
@@ -610,7 +610,7 @@ view: habitat {
     view_label: "Yearly Date Comparison"
     label: "Visits vs Forecast %"
     type: number
-    sql: (${visits_this_week}-${forecasted_visits_this_week_this_year})/nullif(${forecasted_visits_this_week_this_year},0) ;;
+    sql: (${visits_this_week_y}-${forecasted_visits_this_week_this_year})/nullif(${forecasted_visits_this_week_this_year},0) ;;
     value_format_name: percent_2
     html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
           {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
