@@ -543,7 +543,7 @@ view: habitat {
     type: string
     sql: CASE
       WHEN {% condition yearly_date_comparison_filter %} ${date_raw} {% endcondition %} THEN 'This Year'
-      WHEN ${date_raw} >= TIMESTAMP(DATE_ADD(CAST({% date_start yearly_date_comparison_filter %} AS DATE), INTERVAL -1 YEAR)) AND ${date_raw} < TIMESTAMP(DATE_ADD(CAST({% date_end yearly_date_comparison_filter %} AS DATE), INTERVAL -1 YEAR)) THEN 'Last Year'
+      WHEN ${date_raw} >= TIMESTAMP(DATE_ADD(CAST({% date_start yearly_date_comparison_filter %} AS DATE), INTERVAL -52 WEEK)) AND ${date_raw} < TIMESTAMP(DATE_ADD(CAST({% date_end yearly_date_comparison_filter %} AS DATE), INTERVAL -52 WEEK)) THEN 'Last Year'
     END;;
   }
 
@@ -555,7 +555,7 @@ view: habitat {
     type: sum
     sql: ${visits} ;;
     value_format: "#,##0"
-    filters: [this_year_vs_last_year: "This Week"]
+    filters: [this_year_vs_last_year: "This Year"]
     hidden: no
   }
 
