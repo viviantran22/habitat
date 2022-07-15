@@ -415,6 +415,50 @@ view: habitat {
     drill_fields: [clicks]
   }
 
+  measure: forecasted_cost_this_week {
+    view_label: "Date Comparison"
+    label: "Forecasted Cost Current Week"
+    description: "Te be used this with Date Comparaison Filter"
+    type: sum
+    sql: ${forecast_cost} ;;
+    value_format: "\"£\"0"
+    filters: [this_week_vs_last_week: "This Week"]
+    hidden: no
+  }
 
+  measure: forecasted_cost_last_week {
+    type: sum
+    sql: ${forecast_cost} ;;
+    filters: [this_week_vs_last_week: "Prior Week"]
+    hidden: yes
+  }
+
+  measure: forecasted_cost_percent_change {
+    view_label: "Date Comparison"
+    label: "Forecasted Cost Change %"
+    type: number
+    sql: ${forecasted_cost_this_week}/nullif(${forecasted_cost_last_week},0) - 1 ;;
+    value_format_name: percent_2
+    html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
+          {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
+          {% else %}
+          <font color="black"> {{linked_value}} ▬ </font>
+          {% endif %};;
+    drill_fields: [clicks]
+  }
+
+  measure: forecasted_cost_delta_change {
+    view_label: "Date Comparison"
+    label: "Cost Delta Δ"
+    type: number
+    sql: ${forecasted_cost_this_week} - ${forecasted_cost_last_week} ;;
+    value_format: "\"£\"0"
+    html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
+          {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
+          {% else %}
+          <font color="black"> {{linked_value}} ▬ </font>
+          {% endif %};;
+    drill_fields: [clicks]
+  }
 
 }
