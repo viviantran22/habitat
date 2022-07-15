@@ -555,7 +555,7 @@ view: habitat {
     type: sum
     sql: ${visits} ;;
     value_format: "#,##0"
-    filters: [this_week_vs_last_week: "This Week"]
+    filters: [this_week_vs_this_week_last_year: "This Week"]
     hidden: no
   }
 
@@ -563,7 +563,7 @@ view: habitat {
     type: sum
     sql: ${visits} ;;
     value_format: "#,##0"
-    filters: [this_week_vs_last_week: "Last Year"]
+    filters: [this_week_vs_this_week_last_year: "Last Year"]
     hidden: yes
   }
 
