@@ -534,10 +534,10 @@ view: habitat {
   filter: yearly_date_comparison_filter {
     view_label: "Yearly Date Comparison"
     type: date
-    sql: ${this_week_vs_this_week_last_year} is not null ;;
+    sql: ${this_week_vs_last_year} is not null ;;
   }
 
-  dimension: this_week_vs_this_week_last_year {
+  dimension: this_week_vs_last_year {
     hidden: no
     view_label: "Yearly Date Comparison"
     type: string
@@ -548,22 +548,22 @@ view: habitat {
   }
 
   #### Start of YoY Comparaison
-  measure: visits_this_week_this_year {
+  measure: visits_this_week_y {
     view_label: "Yearly Date Comparison"
     label: "Visits Current Week"
     description: "Te be used this with Date Comparison Filter"
     type: sum
     sql: ${visits} ;;
     value_format: "#,##0"
-    filters: [this_week_vs_this_week_last_year: "This Week"]
+    filters: [this_week_vs_last_year: "This Week"]
     hidden: no
   }
 
-  measure: visits_this_week_last_year {
+  measure: visits_last_year {
     type: sum
     sql: ${visits} ;;
     value_format: "#,##0"
-    filters: [this_week_vs_this_week_last_year: "Last Year"]
+    filters: [this_week_vs_last_year: "Last Year"]
     hidden: yes
   }
 
@@ -571,7 +571,7 @@ view: habitat {
     view_label: "Yearly Date Comparison"
     label: "Visits Change %"
     type: number
-    sql: ${visits_this_week}/nullif(${visits_this_week_last_year},0) - 1 ;;
+    sql: ${visits_this_week}/nullif(${visits_last_year},0) - 1 ;;
     value_format_name: percent_2
     html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
           {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
@@ -585,7 +585,7 @@ view: habitat {
     view_label: "Yearly Date Comparison"
     label: "Visits Delta Δ"
     type: number
-    sql: ${visits_this_week} - ${visits_this_week_last_year} ;;
+    sql: ${visits_this_week} - ${visits_last_year} ;;
     value_format: "#,##0"
     html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
           {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
