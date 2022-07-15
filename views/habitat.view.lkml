@@ -375,6 +375,7 @@ view: habitat {
     description: "Te be used this with Date Comparaison Filter"
     type: sum
     sql: ${cost} ;;
+    value_format: "\"£\"0"
     filters: [this_week_vs_last_week: "This Week"]
     hidden: no
   }
@@ -405,6 +406,7 @@ view: habitat {
     label: "Cost Delta Δ"
     type: number
     sql: ${cost_this_week} - ${cost_last_week} ;;
+    value_format: "\"£\"0"
     html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
           {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
           {% else %}
