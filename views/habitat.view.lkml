@@ -232,24 +232,6 @@ view: habitat {
   }
 
 
-##### Year-over-Year (Full Week or Specific Days) Comparaison
-
-  filter: yearly_date_comparison_filter {
-    view_label: "Yearly Date Comparison"
-    type: date
-    sql: ${this_week_vs_this_week_last_year} is not null ;;
-  }
-
-  dimension: this_week_vs_this_week_last_year {
-    hidden: no
-    view_label: "Yearly Date Comparison"
-    type: string
-    sql: CASE
-      WHEN {% condition date_comparison_filter %} ${date_raw} {% endcondition %} THEN 'This Year'
-      WHEN ${date_raw} >= TIMESTAMP(DATE_ADD(CAST({% date_start date_comparison_filter %} AS DATE), INTERVAL -52 WEEKS)) AND ${date_raw} < TIMESTAMP(DATE_ADD(CAST({% date_end date_comparison_filter %} AS DATE), INTERVAL -52 WEEKS)) THEN 'This Week Prior Year'
-    END;;
-  }
-
 
 
   #### Start of Do7D and WoW Comparaison
@@ -546,5 +528,101 @@ view: habitat {
           {% endif %};;
     drill_fields: [clicks]
   }
+
+##### Year-over-Year (Full Week or Specific Days) Comparaison
+
+  filter: yearly_date_comparison_filter {
+    view_label: "Yearly Date Comparison"
+    type: date
+    sql: ${this_week_vs_this_week_last_year} is not null ;;
+  }
+
+  dimension: this_week_vs_this_week_last_year {
+    hidden: no
+    view_label: "Yearly Date Comparison"
+    type: string
+    sql: CASE
+      WHEN {% condition date_comparison_filter %} ${date_raw} {% endcondition %} THEN 'This Year'
+      WHEN ${date_raw} >= TIMESTAMP(DATE_ADD(CAST({% date_start date_comparison_filter %} AS DATE), INTERVAL -52 WEEKS)) AND ${date_raw} < TIMESTAMP(DATE_ADD(CAST({% date_end date_comparison_filter %} AS DATE), INTERVAL -52 WEEKS)) THEN 'This Week Prior Year'
+    END;;
+  }
+
+  #### Start of YoY Comparaison
+  measure: visits_this_week_this_year {
+    view_label: "Date Comparison"
+    label: "Visits Current Week"
+    description: "Te be used this with Date Comparaison Filter"
+    type: sum
+    sql: ${visits} ;;
+    value_format: "#,##0"
+    filters: [this_week_vs_last_week: "This Week"]
+    hidden: no
+  }
+
+  measure: visits_this_week_last_year {
+    type: sum
+    sql: ${visits} ;;
+    value_format: "#,##0"
+    filters: [this_week_vs_last_week: "Last Year"]
+    hidden: yes
+  }
+
+  measure: visits_percent_change_this_year {
+    view_label: "Date Comparison"
+    label: "Visits Change %"
+    type: number
+    sql: ${visits_this_week}/nullif(${visits_this_week_last_year},0) - 1 ;;
+    value_format_name: percent_2
+    html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
+          {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
+          {% else %}
+          <font color="black"> {{linked_value}} ▬ </font>
+          {% endif %};;
+    drill_fields: [clicks]
+  }
+
+  measure: visits_delta_change_this_year {
+    view_label: "Date Comparison"
+    label: "Visits Delta Δ"
+    type: number
+    sql: ${visits_this_week} - ${visits_this_week_last_year} ;;
+    value_format: "#,##0"
+    html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
+          {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
+          {% else %}
+          <font color="black"> {{linked_value}} ▬ </font>
+          {% endif %};;
+    drill_fields: [clicks]
+  }
+
+  measure: forecasted_visits_this_week_this_year {
+    view_label: "Date Comparison"
+    label: "Forecasted Visits Current Week"
+    description: "Te be used this with Date Comparaison Filter"
+    type: sum
+    sql: ${forecast_sessions} ;;
+    value_format: "#,##0"
+    filters: [this_week_vs_last_week: "This Week"]
+    hidden: no
+  }
+
+  measure: visits_vs_forecast_percent_difference_this_year {
+    view_label: "Date Comparison"
+    label: "Visits vs Forecast %"
+    type: number
+    sql: (${visits_this_week}-${forecasted_visits_this_week_this_year})/nullif(${forecasted_visits_this_week_this_year},0) ;;
+    value_format_name: percent_2
+    html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
+          {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
+          {% else %}
+          <font color="black"> {{linked_value}} ▬ </font>
+          {% endif %};;
+    drill_fields: [clicks]
+  }
+
+
+
+
+
 
 }
