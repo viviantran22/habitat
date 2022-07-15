@@ -552,7 +552,7 @@ view: habitat {
   }
 
   #### Start of YoY Comparaison
-  measure: visits_this_week_y {
+  measure: visits_this_year {
     view_label: "Yearly Date Comparison"
     label: "Visits Current Week"
     description: "Te be used this with Yearly Date Comparison Filter"
@@ -575,7 +575,7 @@ view: habitat {
     view_label: "Yearly Date Comparison"
     label: "Visits Change %"
     type: number
-    sql: ${visits_this_week_y}/nullif(${visits_last_year},0) - 1 ;;
+    sql: ${visits_this_year}/nullif(${visits_last_year},0) - 1 ;;
     value_format_name: percent_2
     html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
           {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
@@ -589,7 +589,7 @@ view: habitat {
     view_label: "Yearly Date Comparison"
     label: "Visits Delta Δ"
     type: number
-    sql: ${visits_this_week_y} - ${visits_last_year} ;;
+    sql: ${visits_this_year} - ${visits_last_year} ;;
     value_format: "#,##0"
     html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
           {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
@@ -599,9 +599,9 @@ view: habitat {
     drill_fields: [clicks]
   }
 
-  measure: forecasted_visits_this_week_this_year {
+  measure: forecasted_visits_this_year {
     view_label: "Yearly Date Comparison"
-    label: "Forecasted Visits Current Week"
+    label: "Forecasted Visits This Year"
     description: "Te be used this with Yearly Date Comparison Filter"
     type: sum
     sql: ${forecast_sessions} ;;
@@ -612,9 +612,9 @@ view: habitat {
 
   measure: visits_vs_forecast_percent_difference_this_year {
     view_label: "Yearly Date Comparison"
-    label: "Visits vs Forecast %"
+    label: "Visits vs Forecast This Year %"
     type: number
-    sql: (${visits_this_week_y}-${forecasted_visits_this_week_this_year})/nullif(${forecasted_visits_this_week_this_year},0) ;;
+    sql: (${visits_this_year}-${forecasted_visits_this_year})/nullif(${forecasted_visits_this_year},0) ;;
     value_format_name: percent_2
     html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
           {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
@@ -624,5 +624,223 @@ view: habitat {
     drill_fields: [clicks]
   }
 
+
+  measure: orders_this_year {
+    view_label: "Yearly Date Comparison"
+    label: "Orders Current Week"
+    description: "Te be used this with Yearly Date Comparison Filter"
+    type: sum
+    sql: ${orders} ;;
+    value_format: "#,##0"
+    filters: [this_year_vs_last_year: "This Year"]
+    hidden: no
+  }
+
+  measure: orders_last_year {
+    type: sum
+    sql: ${orders} ;;
+    value_format: "#,##0"
+    filters: [this_year_vs_last_year: "Last Year"]
+    hidden: yes
+  }
+
+  measure: orders_percent_change_this_year {
+    view_label: "Yearly Date Comparison"
+    label: "Orders Change %"
+    type: number
+    sql: ${orders_this_year}/nullif(${orders_last_year},0) - 1 ;;
+    value_format_name: percent_2
+    html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
+          {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
+          {% else %}
+          <font color="black"> {{linked_value}} ▬ </font>
+          {% endif %};;
+    drill_fields: [clicks]
+  }
+
+  measure: orders_delta_change_this_year {
+    view_label: "Yearly Date Comparison"
+    label: "Orders Delta Δ"
+    type: number
+    sql: ${orders_this_year} - ${orders_last_year} ;;
+    value_format: "#,##0"
+    html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
+          {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
+          {% else %}
+          <font color="black"> {{linked_value}} ▬ </font>
+          {% endif %};;
+    drill_fields: [clicks]
+  }
+
+  measure: forecasted_orders_this_year {
+    view_label: "Yearly Date Comparison"
+    label: "Forecasted Orders This Year"
+    description: "Te be used this with Yearly Date Comparison Filter"
+    type: sum
+    sql: ${forecast_orders} ;;
+    value_format: "#,##0"
+    filters: [this_week_vs_last_week: "This Year"]
+    hidden: no
+  }
+
+  measure: orders_vs_forecast_percent_difference_this_year {
+    view_label: "Yearly Date Comparison"
+    label: "Orders vs Forecast This Year %"
+    type: number
+    sql: (${orders_this_year}-${forecasted_orders_this_year})/nullif(${forecasted_orders_this_year},0) ;;
+    value_format_name: percent_2
+    html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
+          {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
+          {% else %}
+          <font color="black"> {{linked_value}} ▬ </font>
+          {% endif %};;
+    drill_fields: [clicks]
+  }
+
+
+  measure: revenue_this_year {
+    view_label: "Yearly Date Comparison"
+    label: "Revenue Current Week"
+    description: "Te be used this with Yearly Date Comparison Filter"
+    type: sum
+    sql: ${revenue} ;;
+    value_format: "\"£\"#,##0"
+    filters: [this_year_vs_last_year: "This Year"]
+    hidden: no
+  }
+
+  measure: revenue_last_year {
+    type: sum
+    sql: ${revenue} ;;
+    value_format: "\"£\"#,##0"
+    filters: [this_year_vs_last_year: "Last Year"]
+    hidden: yes
+  }
+
+  measure: revenue_percent_change_this_year {
+    view_label: "Yearly Date Comparison"
+    label: "Revenue Change %"
+    type: number
+    sql: ${revenue_this_year}/nullif(${revenue_last_year},0) - 1 ;;
+    value_format_name: percent_2
+    html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
+          {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
+          {% else %}
+          <font color="black"> {{linked_value}} ▬ </font>
+          {% endif %};;
+    drill_fields: [clicks]
+  }
+
+  measure: revenue_delta_change_this_year {
+    view_label: "Yearly Date Comparison"
+    label: "Revenue Delta Δ"
+    type: number
+    sql: ${revenue_this_year} - ${revenue_last_year} ;;
+    value_format: "\"£\"#,##0"
+    html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
+          {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
+          {% else %}
+          <font color="black"> {{linked_value}} ▬ </font>
+          {% endif %};;
+    drill_fields: [clicks]
+  }
+
+  measure: forecasted_revenue_this_year {
+    view_label: "Yearly Date Comparison"
+    label: "Forecasted Orders This Year"
+    description: "Te be used this with Yearly Date Comparison Filter"
+    type: sum
+    sql: ${forecast_revenue} ;;
+    value_format: "\"£\"#,##0"
+    filters: [this_week_vs_last_week: "This Year"]
+    hidden: no
+  }
+
+  measure: revenue_vs_forecast_percent_difference_this_year {
+    view_label: "Yearly Date Comparison"
+    label: "Revenue vs Forecast This Year %"
+    type: number
+    sql: (${revenue_this_year}-${forecasted_revenue_this_year})/nullif(${forecasted_revenue_this_year},0) ;;
+    value_format_name: percent_2
+    html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
+          {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
+          {% else %}
+          <font color="black"> {{linked_value}} ▬ </font>
+          {% endif %};;
+    drill_fields: [clicks]
+  }
+
+
+  measure: cost_this_year {
+    view_label: "Yearly Date Comparison"
+    label: "Cost Current Week"
+    description: "Te be used this with Yearly Date Comparison Filter"
+    type: sum
+    sql: ${cost} ;;
+    value_format: "\"£\"#,##0"
+    filters: [this_year_vs_last_year: "This Year"]
+    hidden: no
+  }
+
+  measure: cost_last_year {
+    type: sum
+    sql: ${cost} ;;
+    value_format: "\"£\"#,##0"
+    filters: [this_year_vs_last_year: "Last Year"]
+    hidden: yes
+  }
+
+  measure: cost_percent_change_this_year {
+    view_label: "Yearly Date Comparison"
+    label: "Cost Change %"
+    type: number
+    sql: ${cost_this_year}/nullif(${cost_last_year},0) - 1 ;;
+    value_format_name: percent_2
+    html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
+          {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
+          {% else %}
+          <font color="black"> {{linked_value}} ▬ </font>
+          {% endif %};;
+    drill_fields: [clicks]
+  }
+
+  measure: cost_delta_change_this_year {
+    view_label: "Yearly Date Comparison"
+    label: "Cost Delta Δ"
+    type: number
+    sql: ${cost_this_year} - ${cost_last_year} ;;
+    value_format: "\"£\"#,##0"
+    html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
+          {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
+          {% else %}
+          <font color="black"> {{linked_value}} ▬ </font>
+          {% endif %};;
+    drill_fields: [clicks]
+  }
+
+  measure: forecasted_cost_this_year {
+    view_label: "Yearly Date Comparison"
+    label: "Forecasted Cost This Year"
+    description: "Te be used this with Yearly Date Comparison Filter"
+    type: sum
+    sql: ${forecast_cost} ;;
+    value_format: "\"£\"#,##0"
+    filters: [this_week_vs_last_week: "This Year"]
+    hidden: no
+  }
+
+  measure: cost_vs_forecast_percent_difference_this_year {
+    view_label: "Yearly Date Comparison"
+    label: "Cost vs Forecast This Year %"
+    type: number
+    sql: (${cost_this_year}-${forecasted_cost_this_year})/nullif(${forecasted_cost_this_year},0) ;;
+    value_format_name: percent_2
+    html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
+          {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
+          {% else %}
+          <font color="black"> {{linked_value}} ▬ </font>
+          {% endif %};;
+    drill_fields: [clicks]
+  }
 
 }
