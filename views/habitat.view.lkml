@@ -221,11 +221,6 @@ view: habitat {
     END;;
   }
 
-  filter: date_comparison_filter_year {
-    view_label: "Date Comparison"
-    type: date
-    sql: ${this_year_last_year} is not null ;;
-  }
 
   dimension: this_year_last_year {
     hidden: yes
@@ -260,38 +255,6 @@ view: habitat {
     hidden: yes
   }
 
-  measure: visits_this_year {
-    view_label: "Date Comparison"
-    label: "Visits This Year"
-    description: "Te be used this with Date Comparaison Filter"
-    type: sum
-    sql: ${visits} ;;
-    value_format: "#,##0"
-    filters: [this_week_vs_last_week: "This Year"]
-    hidden: no
-  }
-
-  measure: visits_last_year {
-    type: sum
-    sql: ${visits} ;;
-    value_format: "#,##0"
-    filters: [this_year_last_year: "Last Year"]
-    hidden: yes
-  }
-
-  measure: visits_percent_change_this_year {
-    view_label: "Date Comparison"
-    label: "Yearly Visits Change %"
-    type: number
-    sql: ${visits_this_year}/nullif(${visits_last_year},0) - 1 ;;
-    value_format_name: percent_2
-    html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
-          {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
-          {% else %}
-          <font color="black"> {{linked_value}} ▬ </font>
-          {% endif %};;
-    drill_fields: [clicks]
-  }
 
   measure: visits_percent_change {
     view_label: "Date Comparison"
@@ -567,5 +530,99 @@ view: habitat {
           {% endif %};;
     drill_fields: [clicks]
   }
+
+
+##### Year-over-Year (Full Week or Specific Days) Comparison
+
+
+  filter: yearly_date_comparison_filter {
+    view_label: "Yearly Date Comparison"
+    type: date
+    sql: ${this_year_vs_last_year} is not null ;;
+  }
+
+  dimension: this_year_vs_last_year {
+    hidden: no
+    view_label: "Yearly Date Comparison"
+    type: string
+    sql: CASE
+      WHEN {% condition yearly_date_comparison_filter %} ${date_raw} {% endcondition %} THEN 'This Year'
+      WHEN ${date_raw} >= TIMESTAMP(DATE_ADD(CAST({% date_start yearly_date_comparison_filter %} AS DATE), INTERVAL -52 WEEK)) AND ${date_raw} < TIMESTAMP(DATE_ADD(CAST({% date_end yearly_date_comparison_filter %} AS DATE), INTERVAL -52 WEEK)) THEN 'Last Year'
+    END;;
+  }
+
+  #### Start of YoY Comparaison
+  measure: visits_this_week_y {
+    view_label: "Yearly Date Comparison"
+    label: "Visits Current Week"
+    description: "Te be used this with Yearly Date Comparison Filter"
+    type: sum
+    sql: ${visits} ;;
+    value_format: "#,##0"
+    filters: [this_year_vs_last_year: "This Year"]
+    hidden: no
+  }
+
+  measure: visits_last_year {
+    type: sum
+    sql: ${visits} ;;
+    value_format: "#,##0"
+    filters: [this_year_vs_last_year: "Last Year"]
+    hidden: yes
+  }
+
+  measure: visits_percent_change_this_year {
+    view_label: "Yearly Date Comparison"
+    label: "Visits Change %"
+    type: number
+    sql: ${visits_this_week_y}/nullif(${visits_last_year},0) - 1 ;;
+    value_format_name: percent_2
+    html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
+          {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
+          {% else %}
+          <font color="black"> {{linked_value}} ▬ </font>
+          {% endif %};;
+    drill_fields: [clicks]
+  }
+
+  measure: visits_delta_change_this_year {
+    view_label: "Yearly Date Comparison"
+    label: "Visits Delta Δ"
+    type: number
+    sql: ${visits_this_week_y} - ${visits_last_year} ;;
+    value_format: "#,##0"
+    html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
+          {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
+          {% else %}
+          <font color="black"> {{linked_value}} ▬ </font>
+          {% endif %};;
+    drill_fields: [clicks]
+  }
+
+  measure: forecasted_visits_this_week_this_year {
+    view_label: "Yearly Date Comparison"
+    label: "Forecasted Visits Current Week"
+    description: "Te be used this with Yearly Date Comparison Filter"
+    type: sum
+    sql: ${forecast_sessions} ;;
+    value_format: "#,##0"
+    filters: [this_week_vs_last_week: "This Week"]
+    hidden: no
+  }
+
+  measure: visits_vs_forecast_percent_difference_this_year {
+    view_label: "Yearly Date Comparison"
+    label: "Visits vs Forecast %"
+    type: number
+    sql: (${visits_this_week_y}-${forecasted_visits_this_week_this_year})/nullif(${forecasted_visits_this_week_this_year},0) ;;
+    value_format_name: percent_2
+    html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
+          {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
+          {% else %}
+          <font color="black"> {{linked_value}} ▬ </font>
+          {% endif %};;
+    drill_fields: [clicks]
+  }
+
 
 }
