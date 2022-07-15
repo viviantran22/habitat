@@ -327,6 +327,7 @@ view: habitat {
     description: "Te be used this with Date Comparaison Filter"
     type: sum
     sql: ${revenue} ;;
+    value_format: "\"£\"0"
     filters: [this_week_vs_last_week: "This Week"]
     hidden: no
   }
@@ -334,6 +335,7 @@ view: habitat {
   measure: revenue_last_week {
     type: sum
     sql: ${revenue} ;;
+    value_format: "\"£\"0"
     filters: [this_week_vs_last_week: "Prior Week"]
     hidden: yes
   }
@@ -357,6 +359,7 @@ view: habitat {
     label: "Revenue Delta Δ"
     type: number
     sql: ${revenue_this_week} - ${revenue_last_week} ;;
+    value_format: "\"£\"0"
     html: {% if value > 0 %} <font color="green"> {{linked_value}} ▲ </font>
           {% elsif value < 0 %} <font color="red"> {{linked_value}} ▼ </font>
           {% else %}
