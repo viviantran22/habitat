@@ -534,10 +534,10 @@ view: habitat {
   filter: yearly_date_comparison_filter {
     view_label: "Yearly Date Comparison"
     type: date
-    sql: ${this_week_vs_last_year} is not null ;;
+    sql: ${this_year_vs_last_year} is not null ;;
   }
 
-  dimension: this_week_vs_last_year {
+  dimension: this_year_vs_last_year {
     hidden: no
     view_label: "Yearly Date Comparison"
     type: string
@@ -551,11 +551,11 @@ view: habitat {
   measure: visits_this_week_y {
     view_label: "Yearly Date Comparison"
     label: "Visits Current Week"
-    description: "Te be used this with Date Comparison Filter"
+    description: "Te be used this with Yearly Date Comparison Filter"
     type: sum
     sql: ${visits} ;;
     value_format: "#,##0"
-    filters: [this_week_vs_last_year: "This Week"]
+    filters: [this_year_vs_last_year: "This Week"]
     hidden: no
   }
 
@@ -563,7 +563,7 @@ view: habitat {
     type: sum
     sql: ${visits} ;;
     value_format: "#,##0"
-    filters: [this_week_vs_last_year: "Last Year"]
+    filters: [this_year_vs_last_year: "Last Year"]
     hidden: yes
   }
 
@@ -598,7 +598,7 @@ view: habitat {
   measure: forecasted_visits_this_week_this_year {
     view_label: "Yearly Date Comparison"
     label: "Forecasted Visits Current Week"
-    description: "Te be used this with Date Comparaison Filter"
+    description: "Te be used this with Yearly Date Comparison Filter"
     type: sum
     sql: ${forecast_sessions} ;;
     value_format: "#,##0"
